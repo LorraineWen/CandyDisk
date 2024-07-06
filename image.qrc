@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/appicon.png</file>
+        <file>image/background1.jpg</file>
+        <file>image/loginicon.png</file>
+        <file>image/logoicon.ico</file>
+        <file>image/minicon.png</file>
+        <file>image/quiticon.png</file>
+        <file>image/registericon.png</file>
+        <file>image/settingicon.png</file>
+        <file>image/titlebackground.jpg</file>
+    </qresource>
+</RCC>
