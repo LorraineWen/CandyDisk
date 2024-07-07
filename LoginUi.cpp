@@ -20,9 +20,8 @@ LoginUi::LoginUi(QWidget *parent)
     QIcon icon(":/login/image/appicon.png");
     this->setWindowIcon(icon);
     bg.load (":/login/image/background1.jpg");
-    connect(ui->titlewidget,&TitleUi::show_setpage,this,&LoginUi::on_tosetpage);
-    connect(ui->titlewidget,&TitleUi::show_logpage,this,&LoginUi::on_tologbutton_2_clicked);
-    connect(ui->titlewidget,&TitleUi::show_registerpage,this,&LoginUi::on_registerbutton_4_clicked);
+     mainui=new MainUi();
+    loginconnect();
     util=Util::get_instance();
     ltoken=LoginToken::getInstance();
     readConf();
@@ -33,6 +32,14 @@ LoginUi::~LoginUi()
 {
     delete ui;
 }
+void LoginUi::loginconnect()
+{
+    connect(ui->titlewidget,&TitleUi::show_setpage,this,&LoginUi::on_tosetpage);
+    connect(ui->titlewidget,&TitleUi::show_logpage,this,&LoginUi::on_tologbutton_2_clicked);
+    connect(ui->titlewidget,&TitleUi::show_registerpage,this,&LoginUi::on_registerbutton_4_clicked);
+    connect(mainui,&MainUi::show_loginPage,this,&LoginUi::set_loginPage);
+}
+
 void LoginUi::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
@@ -49,6 +56,10 @@ void LoginUi::on_tosetpage()
 void LoginUi::on_registerbutton_4_clicked()
 {
     ui->stackedWidget->setCurrentIndex( 1);
+}
+void  LoginUi::set_loginPage()
+{
+    this->show();
 }
 
 void LoginUi::on_registerbutton_2_clicked()
@@ -206,7 +217,6 @@ void LoginUi::on_logButton_clicked()
                         QMessageBox::information(this,"消息","登录成功");
                         util->writeLogininfo(name,password,ui->rememberpwd->isChecked());
                         save_user_token(name,password,ip,port,to.toString());
-                        mainui=new MainUi();
                         this->hide();
                         mainui->show();
                     }

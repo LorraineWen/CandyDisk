@@ -5,18 +5,33 @@ MainUi::MainUi(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MainUi)
 {
-     bg.load(":/main/image/background2.jpg");
     ui->setupUi(this);
      QIcon icon(":/login/image/appicon.png");
      this->setWindowIcon(icon);
+     mainconnect();
 }
 
 MainUi::~MainUi()
 {
     delete ui;
 }
-void MainUi::paintEvent(QPaintEvent *event)
+void MainUi::mainconnect()
 {
-    QPainter p(this);
-    p.drawPixmap(0,0,this->width(),this->height(),bg);
+    connect(ui->MainMenu,&MainMenuUi::show_myfilePage,this,[=](){
+        ui->stackedWidget->setCurrentWidget(ui->myfilePage);
+    });
+    connect(ui->MainMenu,&MainMenuUi::show_sharefilePage,this,[=]()
+            {
+         ui->stackedWidget->setCurrentWidget(ui->sharefilePage);
+    });
+    connect(ui->MainMenu,&MainMenuUi::show_downloadfilePage,this,[=]{
+         ui->stackedWidget->setCurrentWidget(ui->downloadPage);
+    });
+    connect(ui->MainMenu,&MainMenuUi::show_transportfilePage,this,[=]{
+         ui->stackedWidget->setCurrentWidget(ui->transportPage);
+    });
+    connect(ui->MainMenu,&MainMenuUi::show_changeuserPage,this,[=]{
+        this->hide();
+        emit show_loginPage();
+    });
 }

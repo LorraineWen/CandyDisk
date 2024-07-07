@@ -14,8 +14,8 @@ class LoginUi : public QWidget
     Q_OBJECT
 
 public:
-    void paintEvent(QPaintEvent *event);
     explicit LoginUi(QWidget *parent = nullptr);
+    void paintEvent(QPaintEvent *event);
     void readConf();
      void server_set();
     void save_user_token(QString name,QString password,QString ip,QString port,QString token);
@@ -26,6 +26,7 @@ private slots:
     void on_tologbutton_2_clicked();
     void on_tosetpage();
     void on_registerbutton_4_clicked();
+    void set_loginPage();
     //业务功能槽函数
     void on_registerbutton_2_clicked();
     void on_setserverbutton_clicked();
@@ -37,6 +38,7 @@ private:
     LoginToken *ltoken;
     MainUi *mainui;
     QPixmap bg;
+    void loginconnect();
 };
 
 #endif // LOGINUI_H

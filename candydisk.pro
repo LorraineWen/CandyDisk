@@ -15,6 +15,7 @@ SOURCES += \
     main.cpp \
     mainmenuui.cpp \
     mainui.cpp \
+    myfilepage.cpp \
     util.cpp \
     des.c
 
@@ -24,6 +25,7 @@ HEADERS += \
     logintoken.h \
     mainmenuui.h \
     mainui.h \
+    myfilepage.h \
     util.h \
     des.h
 
@@ -31,7 +33,8 @@ FORMS += \
     LoginUi.ui \
     TitleUi.ui \
     mainmenuui.ui \
-    mainui.ui
+    mainui.ui \
+   myfilepage.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
