@@ -17,8 +17,9 @@ LoginUi::LoginUi(QWidget *parent)
     , ui(new Ui::LoginUi)
 {
     ui->setupUi(this);
-    QIcon icon(":/image/appicon.png");
+    QIcon icon(":/login/image/appicon.png");
     this->setWindowIcon(icon);
+    bg.load (":/login/image/background1.jpg");
     connect(ui->titlewidget,&TitleUi::show_setpage,this,&LoginUi::on_tosetpage);
     connect(ui->titlewidget,&TitleUi::show_logpage,this,&LoginUi::on_tologbutton_2_clicked);
     connect(ui->titlewidget,&TitleUi::show_registerpage,this,&LoginUi::on_registerbutton_4_clicked);
@@ -35,7 +36,6 @@ LoginUi::~LoginUi()
 void LoginUi::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
-    QPixmap bg(":/image/background1.jpg");
     p.drawPixmap(0,0,this->width(),this->height(),bg);
 }
 void LoginUi::on_tologbutton_2_clicked()
@@ -206,6 +206,9 @@ void LoginUi::on_logButton_clicked()
                         QMessageBox::information(this,"消息","登录成功");
                         util->writeLogininfo(name,password,ui->rememberpwd->isChecked());
                         save_user_token(name,password,ip,port,to.toString());
+                        mainui=new MainUi();
+                        this->hide();
+                        mainui->show();
                     }
                     else if(status.toString()=="001")QMessageBox::critical(this,"错误","登录失败");
                 }

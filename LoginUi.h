@@ -4,6 +4,7 @@
 #include<QPainter>
 #include "util.h"
 #include"logintoken.h"
+#include "mainui.h"
 namespace Ui {
 class LoginUi;
 }
@@ -34,6 +35,8 @@ private:
     Ui::LoginUi *ui;
     Util *util;
     LoginToken *ltoken;
+    MainUi *mainui;
+    QPixmap bg;
 };
 
 #endif // LOGINUI_H

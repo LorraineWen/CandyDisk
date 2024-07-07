@@ -25,12 +25,6 @@ private slots:
 
     void on_toregisterbutton_clicked();
 
-    void on_toolButton_clicked();
-
-    void on_toolButton_2_clicked();
-
-    void on_toolButton_3_clicked();
-
 private:
     Ui::TitleUi *ui;
 };

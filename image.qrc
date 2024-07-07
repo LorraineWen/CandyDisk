@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/login">
         <file>image/appicon.png</file>
         <file>image/background1.jpg</file>
         <file>image/loginicon.png</file>
@@ -8,6 +8,17 @@
         <file>image/quiticon.png</file>
         <file>image/registericon.png</file>
         <file>image/settingicon.png</file>
-        <file>image/titlebackground.jpg</file>
+    </qresource>
+    <qresource prefix="/main">
+        <file>image/sharefileicon.png</file>
+        <file>image/transporticon.png</file>
+        <file>image/personicon.png</file>
+        <file>image/changeicon.png</file>
+        <file>image/downloadicon.png</file>
+        <file>image/fileicon.png</file>
+        <file>image/background2.jpg</file>
+        <file>image/menubackground.jpg</file>
+        <file>image/menubackground2.jpg</file>
+        <file>image/menubackground3.jpg</file>
     </qresource>
 </RCC>

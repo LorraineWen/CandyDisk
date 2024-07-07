@@ -1,12 +1,12 @@
 #include "TitleUi.h"
 #include "ui_TitleUi.h"
-
+#include<QPainter>
 TitleUi::TitleUi(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::TitleUi)
 {
     ui->setupUi(this);
-    ui->logo->setPixmap(QPixmap(":/image/logoicon.ico").scaled(40,40));
+    ui->logo->setPixmap(QPixmap(":/login/image/logoicon.ico").scaled(40,40));
 }
 
 TitleUi::~TitleUi()
@@ -28,23 +28,5 @@ void TitleUi::on_tologbutton_clicked()
 void TitleUi::on_toregisterbutton_clicked()
 {
     emit show_registerpage();
-}
-
-
-void TitleUi::on_toolButton_clicked()
-{
-    emit show_logpage();
-}
-
-
-void TitleUi::on_toolButton_2_clicked()
-{
-    emit show_registerpage();
-}
-
-
-void TitleUi::on_toolButton_3_clicked()
-{
-    emit show_setpage();
 }
 
