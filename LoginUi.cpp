@@ -3,7 +3,6 @@
 #include <QPushButton>
 #include <QRegularExpression>
 #include <QMessageBox>
-#include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QJsonObject>
@@ -21,8 +20,10 @@ LoginUi::LoginUi(QWidget *parent)
     this->setWindowIcon(icon);
     bg.load (":/login/image/background1.jpg");
      mainui=new MainUi();
+    myfilepage=new MyFilePage();
     loginconnect();
     util=Util::get_instance();
+    manager=util->getmanger();
     ltoken=LoginToken::getInstance();
     readConf();
     server_set();
@@ -38,6 +39,7 @@ void LoginUi::loginconnect()
     connect(ui->titlewidget,&TitleUi::show_logpage,this,&LoginUi::on_tologbutton_2_clicked);
     connect(ui->titlewidget,&TitleUi::show_registerpage,this,&LoginUi::on_registerbutton_4_clicked);
     connect(mainui,&MainUi::show_loginPage,this,&LoginUi::set_loginPage);
+    connect(myfilepage,&MyFilePage::loginagain,this,&LoginUi::set_loginPage);
 }
 
 void LoginUi::paintEvent(QPaintEvent *event)
@@ -97,7 +99,6 @@ void LoginUi::on_registerbutton_2_clicked()
         QMessageBox::warning(this,"警告","用户电子邮件格式不正确");  return;
 
     }
-    QNetworkAccessManager *manager=new QNetworkAccessManager(this);
     QNetworkRequest request;
     QString url=QString("http://%1:%2/reg").arg(ip,port);
     request.setUrl(url);
@@ -142,6 +143,7 @@ void LoginUi::on_registerbutton_2_clicked()
                 }
             }
         }
+          reply->deleteLater();
     });
     }
 void LoginUi::on_setserverbutton_clicked()
@@ -183,7 +185,6 @@ void LoginUi::on_logButton_clicked()
         QMessageBox::warning(this,"警告","用户密码格式不正确");
         return;
     }
-    QNetworkAccessManager *manager=new QNetworkAccessManager(this);
     QNetworkRequest request;
     QString url=QString("http://%1:%2/login").arg(ip,port);
       request.setUrl(url);
@@ -223,6 +224,7 @@ void LoginUi::on_logButton_clicked()
                     else if(status.toString()=="001")QMessageBox::critical(this,"错误","登录失败");
                 }
             }
+     reply->deleteLater();
         });
     } else {
         // 请求失败，输出错误信息
@@ -266,7 +268,6 @@ void LoginUi::readConf()
         qDebug() << "解密失败";
     }
     QString userName = QString::fromLocal8Bit((const char*)encUsr, encUsrLen);
-    qDebug() << "userName:" << userName;
     ui->username->setText(userName);
 }
 void LoginUi::server_set()

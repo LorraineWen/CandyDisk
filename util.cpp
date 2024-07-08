@@ -7,8 +7,11 @@
 #include<QJsonDocument>
 #include <QFile>
 #include<QJsonObject>
-Util* Util::u_instance=new Util();
-Util::Util() {}
+Util* Util::u_instance=new Util;
+Util::Util()
+{
+    manger=new QNetworkAccessManager();
+}
 Util* Util::get_instance()
 {
     return u_instance;
@@ -120,6 +123,11 @@ QString Util::getStrMd5(QString str)
     arr=QCryptographicHash::hash(str.toLocal8Bit(),QCryptographicHash::Md5);
     return arr.toHex();
 }
+QNetworkAccessManager* Util::getmanger()
+{
+    return manger;
+}
+
 QString Util::getConfValue(QString title,QString key,QString path)
 {
     QFile file(path);

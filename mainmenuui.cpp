@@ -10,8 +10,10 @@ MainMenuUi::MainMenuUi(QWidget *parent)
     ui->setupUi(this);
     bg.load(":/main/image/menubackground3.jpg");
     menuconnect();
+    //currentButton=ui->myfileButton;
     ui->myfileButton->setStyleSheet("color:rgb(151, 116, 208);font: 700 10pt Microsoft YaHei UI");
-   /* smapper=new QSignalMapper(this);
+    /*
+    smapper=new QSignalMapper(this);
     mapper.insert(ui->myfileButton->text(),ui->myfileButton);
     mapper.insert(ui->fileshareButton->text(),ui->fileshareButton);
     mapper.insert(ui->changeuserButton->text(),ui->changeuserButton);
@@ -63,6 +65,7 @@ void MainMenuUi::onMapperButtonClicked(QString text)
     else if(text==ui->changeuserButton->text())emit show_changeuserPage();
 }
 */
+
 void MainMenuUi::menuconnect()
 {
     connect(ui->myfileButton, &QToolButton::clicked, this, [=](){
@@ -110,3 +113,4 @@ void MainMenuUi::menuconnect()
         ui->changeuserButton->setStyleSheet("color:black;font: 700 10pt Microsoft YaHei UI");
     });
 }
+

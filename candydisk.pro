@@ -11,21 +11,27 @@ CONFIG += c++17
 SOURCES += \
     LoginUi.cpp \
     TitleUi.cpp \
+    file.cpp \
     logintoken.cpp \
     main.cpp \
     mainmenuui.cpp \
     mainui.cpp \
     myfilepage.cpp \
+    rightmenu.cpp \
+    serverdatautil.cpp \
     util.cpp \
     des.c
 
 HEADERS += \
     LoginUi.h \
     TitleUi.h \
+    file.h \
     logintoken.h \
     mainmenuui.h \
     mainui.h \
     myfilepage.h \
+    rightmenu.h \
+    serverdatautil.h \
     util.h \
     des.h
 
@@ -34,7 +40,8 @@ FORMS += \
     TitleUi.ui \
     mainmenuui.ui \
     mainui.ui \
-   myfilepage.ui
+   myfilepage.ui \
+    rightmenu.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

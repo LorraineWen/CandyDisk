@@ -1,6 +1,8 @@
 #ifndef UTIL_H
 #define UTIL_H
 #include<QString>
+#include <QObject>
+#include<QNetworkAccessManager>
 // 正则表达式
 #define USER_REG        "^[a-zA-Z\\d_@#-\*]\{3,16\}$"
 #define PASSWD_REG      "^[a-zA-Z\\d_@#-\*]\{6,18\}$"
@@ -14,8 +16,10 @@
 #define CFG_REMEBER_NO "no"
 class Util
 {
+
 private: Util();
     static Util* u_instance;
+    QNetworkAccessManager *manger;
 public:
     static Util* get_instance();
     //写入数据到文件
@@ -25,6 +29,7 @@ public:
     QString getConfValue(QString title,QString key,QString path=CFG_FILE);
     //加密字符串
     QString getStrMd5(QString str);
+    QNetworkAccessManager* getmanger();
 };
 
 #endif // UTIL_H

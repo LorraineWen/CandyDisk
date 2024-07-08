@@ -5,6 +5,7 @@
 #include "util.h"
 #include"logintoken.h"
 #include "mainui.h"
+#include "myfilepage.h"
 namespace Ui {
 class LoginUi;
 }
@@ -37,7 +38,9 @@ private:
     Util *util;
     LoginToken *ltoken;
     MainUi *mainui;
+    MyFilePage *myfilepage;
     QPixmap bg;
+    QNetworkAccessManager *manager;
     void loginconnect();
 };
 

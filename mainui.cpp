@@ -17,6 +17,7 @@ MainUi::~MainUi()
 }
 void MainUi::mainconnect()
 {
+    //页面切换槽
     connect(ui->MainMenu,&MainMenuUi::show_myfilePage,this,[=](){
         ui->stackedWidget->setCurrentWidget(ui->myfilePage);
     });

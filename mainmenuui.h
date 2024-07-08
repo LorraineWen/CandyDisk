@@ -25,11 +25,11 @@ private slots:
     void menuconnect();
 private:
     void paintEvent(QPaintEvent *event);
-  // void defaultPage();
+   //void defaultPage();
     QPixmap bg;
     Ui::MainMenuUi *ui;
     //QSignalMapper* smapper;
-   // QMap<QString,QToolButton*>mapper;
+    //QMap<QString,QToolButton*>mapper;
     //QToolButton*currentButton;
 };
 
