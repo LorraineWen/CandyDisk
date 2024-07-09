@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FileFactorUi</class>
+ <widget class="QWidget" name="FileFactorUi">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;</string>
+     </property>
+     <property name="text">
+      <string>文件名称：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="filesize">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLabel" name="status">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="uploader">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>下载量：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>分享状态：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="filename">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;</string>
+     </property>
+     <property name="text">
+      <string>hello</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLabel" name="downloadtime">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_3">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Microsoft YaHei UI&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>上传时间：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>上传者：</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLabel" name="uploadtime">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="label_4">
+     <property name="styleSheet">
+      <string notr="true">font: 700 14pt &quot;Comic Sans MS&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>文件大小：</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

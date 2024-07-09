@@ -7,6 +7,7 @@
 #include "logintoken.h"
 #include "file.h"
 #include <QPaintEvent>
+#include "filefactorui.h"
 namespace Ui {
 class MyFilePage;
 }
@@ -24,6 +25,7 @@ signals:
 private:
     Ui::MyFilePage *ui;
     RightMenu *iconMenu;
+    FileFactorUi *filefactorui;
     Util *util;
     LoginToken *token;
     int filecount;
@@ -47,6 +49,8 @@ private:
     void clearFile();
     //void paintEvent(QPaintEvent *event);
     void shareFile();
+    void deleteFile();
+    void showFileFactor();
 
 private slots:
     void show_rightMenu(const QPoint &pos);

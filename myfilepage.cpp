@@ -20,6 +20,7 @@ MyFilePage::MyFilePage(QWidget *parent)
     util=Util::get_instance();
     token=LoginToken::getInstance();
     manager=util->getmanger();
+    filefactorui=new FileFactorUi();
 }
 
 MyFilePage::~MyFilePage()
@@ -85,10 +86,11 @@ void MyFilePage::rightmenuconnect()
     connect(deleteAction,&QAction::triggered,this,[=]()
             {
         qDebug()<<"删除文件";
+        deleteFile();
     });
     connect(factorAction,&QAction::triggered,this,[=]()
             {
-                qDebug()<<"文件属性";
+        showFileFactor();
             });
     connect(ascorderAction,&QAction::triggered,this,[=]()
             {
@@ -262,7 +264,9 @@ for(int i=0;i<filelist.size();i++)
                 if(code=="010")
                 qDebug()<<"分享的服务器数据"<<rdata;
                 else if(code=="011")qDebug()<<"分享失败";
-                else if(code=="012")qDebug()<<"已经分享了";
+                else if(code=="012")
+                    {
+                    QMessageBox::information(this,"提示","该文件已经分享了");                }
                 else if(code=="013")
                     {
                     qDebug()<<"token过期了";
@@ -279,4 +283,81 @@ for(int i=0;i<filelist.size();i++)
         break;
         }
     }
+}
+void MyFilePage::deleteFile()
+{
+    QListWidgetItem *item=ui->fileList->currentItem();
+    for(int i=0;i<ui->fileList->count();i++)
+    {
+        if(item==ui->fileList->item(i))
+        {
+            ui->fileList->takeItem(i);
+            break;
+        }
+    }
+    if(item==nullptr)return;
+    int cnt=filelist.size();
+    for(int i=0;i<cnt;i++)
+    {
+        File*file=filelist[i];
+        if(file->fileName==item->text())
+        {
+            filelist.takeAt(i);
+            QString ip=util->getConfValue("web_server","ip");
+            QString port=util->getConfValue("web_server","port");
+            QString user=token->getName();
+            QString tok=token->getToken();
+            QString md5=file->md5;
+            QNetworkRequest request;
+            QString url=QString("http://%1:%2/dealfile?cmd=del").arg(ip,port);
+            request.setUrl(url);
+            request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
+            QJsonObject obj;
+            obj.insert("user",user);
+            obj.insert("token",tok);
+            obj.insert("md5",md5);
+            obj.insert("filename",file->fileName);
+            QJsonDocument doc;
+            doc.setObject(obj);
+            QByteArray data=doc.toJson();
+            QNetworkReply *reply=manager->post(request,data);
+            if (reply->error() == QNetworkReply::NoError) {
+                connect(reply,&QNetworkReply::readyRead,this,[=](){
+                    QByteArray rdata=reply->readAll();
+                    QString code=ServerDataUtil::getCode(rdata);
+                    if(code=="013")
+                        {
+                        delete item;
+                        delete file;
+                    }
+                    else if(code=="004")qDebug()<<"删除失败";
+                    else if(code=="111")
+                    {
+                        qDebug()<<"token过期了";
+                        QMessageBox::critical(this, "账号异常", "请重新登录");
+                        emit loginagain();
+                        return;
+                    }
+                    reply->deleteLater();
+                });
+            } else {
+                // 请求失败，输出错误信息
+                qDebug() << "Request failed: " << reply->errorString();
+            }
+            break;
+        }
+    }
+}
+void MyFilePage::showFileFactor()
+{
+     QListWidgetItem *item=ui->fileList->currentItem();
+    for(int i=0;i<filelist.size();i++)
+     {
+         if(filelist[i]->fileName==item->text())
+        {
+            filefactorui->setFileFactor(filelist[i]);
+             filefactorui->show();
+            break;
+        }
+     }
 }

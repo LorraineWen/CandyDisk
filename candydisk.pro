@@ -12,6 +12,7 @@ SOURCES += \
     LoginUi.cpp \
     TitleUi.cpp \
     file.cpp \
+    filefactorui.cpp \
     logintoken.cpp \
     main.cpp \
     mainmenuui.cpp \
@@ -26,6 +27,7 @@ HEADERS += \
     LoginUi.h \
     TitleUi.h \
     file.h \
+    filefactorui.h \
     logintoken.h \
     mainmenuui.h \
     mainui.h \
@@ -38,6 +40,7 @@ HEADERS += \
 FORMS += \
     LoginUi.ui \
     TitleUi.ui \
+    filefactorui.ui \
     mainmenuui.ui \
     mainui.ui \
    myfilepage.ui \
