@@ -9,6 +9,7 @@ MainMenuUi::MainMenuUi(QWidget *parent)
 {
     ui->setupUi(this);
     bg.load(":/main/image/menubackground3.jpg");
+    token=LoginToken::getInstance();
     menuconnect();
     //currentButton=ui->myfileButton;
     ui->myfileButton->setStyleSheet("color:rgb(151, 116, 208);font: 700 10pt Microsoft YaHei UI");
@@ -41,6 +42,7 @@ void MainMenuUi::paintEvent(QPaintEvent *event)
 {
     QPainter p(this);
     p.drawPixmap(0,0,this->width(),this->height(),bg);
+    ui->userButton->setText(token->getName());
 }
 /*
 void MainMenuUi::onMapperButtonClicked(QString text)

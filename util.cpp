@@ -7,10 +7,12 @@
 #include<QJsonDocument>
 #include <QFile>
 #include<QJsonObject>
+#include<QDir>
 Util* Util::u_instance=new Util;
 Util::Util()
 {
     manger=new QNetworkAccessManager();
+    getFileTypeList();
 }
 Util* Util::get_instance()
 {
@@ -173,4 +175,33 @@ QString Util::getConfValue(QString title,QString key,QString path)
         }
     }
     return "";
+}
+//判断文件后缀名是否在图库中存在
+QString Util::getFileType(QString filetypename)
+{
+    if(filetypelist.contains(filetypename))
+    {
+        return filetypename;
+    }
+    else
+    {
+        return "other.png";
+    }
+}
+//获取图库中的所有文件图标
+void Util::getFileTypeList()
+{
+    QDir dir(FILE_TYPE_DIR);
+    if(!dir.exists())
+    {
+        dir.mkdir(FILE_TYPE_DIR);
+    }
+    dir.setFilter(QDir::Files|QDir::NoDot|QDir::NoDotDot|QDir::NoDotAndDotDot|QDir::NoSymLinks);
+    dir.setSorting(QDir::Size);
+    QFileInfoList fileinfolist=dir.entryInfoList();
+    for(int i=0;i<fileinfolist.size();i++)
+    {
+        QFileInfo fileinfo=fileinfolist.at(i);
+        filetypelist.append(fileinfo.fileName());
+    }
 }

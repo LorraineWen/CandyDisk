@@ -14,6 +14,7 @@
 #define CFG_FILE "conf/cfg.json"
 #define CFG_REMEBER_YES "yes"
 #define CFG_REMEBER_NO "no"
+#define FILE_TYPE_DIR "conf/filetype"
 class Util
 {
 
@@ -30,6 +31,10 @@ public:
     //加密字符串
     QString getStrMd5(QString str);
     QNetworkAccessManager* getmanger();
+    QString getFileType(QString filetypename);
+    void getFileTypeList();
+private:
+    QStringList filetypelist;
 };
 
 #endif // UTIL_H

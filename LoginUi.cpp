@@ -61,6 +61,8 @@ void LoginUi::on_registerbutton_4_clicked()
 }
 void  LoginUi::set_loginPage()
 {
+    qDebug()<<"hlle";
+   mainui->hide();
     this->show();
 }
 

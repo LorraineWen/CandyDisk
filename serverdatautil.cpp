@@ -81,3 +81,22 @@ QList<File*>ServerDataUtil::getFileInfo(QByteArray json)
     }
     return list;
 }
+QString ServerDataUtil::getCode(QByteArray json)
+{
+    QString code;
+    QJsonParseError err;
+    QJsonDocument doc=QJsonDocument::fromJson(json,&err);
+    if(err.error!=QJsonParseError::NoError)
+    {
+        qDebug()<<"Json格式错误";
+    }else
+    {
+        QJsonObject obj=doc.object();
+        QJsonValue value=obj.value("code");
+        if(value.type()==QJsonValue::String)
+        {
+            code=value.toString();
+        }
+    }
+    return code;
+}

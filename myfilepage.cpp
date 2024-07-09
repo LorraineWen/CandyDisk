@@ -33,7 +33,6 @@ void MyFilePage::initFileList()
     ui->fileList->setGridSize(QSize(100,100));
     ui->fileList->setResizeMode(QListView::Adjust);
     ui->fileList->setMovement(QListView::Static);
-    ui->fileList->addItem(new QListWidgetItem(QIcon(":/login/image/appicon.png"),"文件1"));
     ui->fileList->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->fileList,&QListWidget::customContextMenuRequested,this,&MyFilePage::show_rightMenu);
 }
@@ -46,6 +45,7 @@ void MyFilePage::show_rightMenu(const QPoint &pos)
     }
     else
     {
+        if(item->text()=="上传文件")return;
         iconMenu->exec(QCursor::pos());
     }
 
@@ -80,6 +80,7 @@ void MyFilePage::rightmenuconnect()
     });
     connect(shareAction,&QAction::triggered,this,[=](){
         qDebug()<<"分享文件";
+        shareFile();
     });
     connect(deleteAction,&QAction::triggered,this,[=]()
             {
@@ -91,17 +92,14 @@ void MyFilePage::rightmenuconnect()
             });
     connect(ascorderAction,&QAction::triggered,this,[=]()
             {
-                qDebug()<<"升序排序";
         getUserFileCount(Asc);
             });
     connect(descorderAction,&QAction::triggered,this,[=]()
             {
-                qDebug()<<"降序排序";
          getUserFileCount(Desc);
             });
     connect(freshAction,&QAction::triggered,this,[=]()
             {
-                qDebug()<<"刷新文件";
         getUserFileCount(Normal);
             });
     connect(uploadAction,&QAction::triggered,this,[=]()
@@ -141,7 +139,6 @@ void MyFilePage::getUserFileCount(MyFileDisplay cmd)
                 else if(code=="111")
                 {
                      QMessageBox::critical(this, "账号异常", "请重新登录");
-                    this->hide();
                     emit loginagain();
                     return;
                 }
@@ -187,14 +184,9 @@ void  MyFilePage::getUserFileList(MyFileDisplay cmd)
     if (reply->error() == QNetworkReply::NoError) {
         connect(reply,&QNetworkReply::readyRead,this,[=](){
             QByteArray rdata=reply->readAll();
+               clearFile();
            filelist=ServerDataUtil::getFileInfo(rdata);
-            if(!filelist.isEmpty())
-            {
-               for(int i=0;i<filelist.size();i++)
-                {
-                    qDebug()<<filelist[i]->fileName;
-                }
-            }
+            show_FileIcon();
             reply->deleteLater();
         });
     } else {
@@ -202,4 +194,89 @@ void  MyFilePage::getUserFileList(MyFileDisplay cmd)
         qDebug() << "Request failed: " << reply->errorString();
     }
 }
-
+ void MyFilePage::show_FileIcon()
+{
+     for(int i=0;i<filelist.size();i++)
+    {
+        File*file=filelist.at(i);
+         QString fileTypeName=QString("%1.png").arg(file->type);
+        QString fileName=util->getFileType(fileTypeName);
+         QString filepath=QString("%1/%2").arg(FILE_TYPE_DIR).arg(fileName);
+        ui->fileList->addItem(new QListWidgetItem(QIcon(filepath),file->fileName));
+    }
+      QString filepath=QString("%1/%2").arg(FILE_TYPE_DIR).arg("upload.png");
+     ui->fileList->addItem(new QListWidgetItem(QIcon(filepath),"上传文件"));
+ }
+void MyFilePage::clearFile()
+ {
+    int n=ui->fileList->count();
+     for(int i=0;i<n;i++)
+    {
+        QListWidgetItem*item=ui->fileList->takeItem(0);
+         delete item;
+    }
+     int n1=filelist.size();
+    for(int i=0;i<n1;i++)
+     {
+         File*file=filelist.takeFirst();
+        if(file!=nullptr)delete file;
+     }
+}
+ /*
+ void MyFilePage::paintEvent(QPaintEvent *event)
+{
+     getUserFileCount(Normal);
+ }
+*/
+void MyFilePage::shareFile()
+{
+    QListWidgetItem *item=ui->fileList->currentItem();
+    if(item==nullptr)return;
+    QString ip=util->getConfValue("web_server","ip");
+    QString port=util->getConfValue("web_server","port");
+    QString user=token->getName();
+    QString tok=token->getToken();
+for(int i=0;i<filelist.size();i++)
+    {
+        File*file=filelist.at(i);
+    if(file->fileName==item->text())
+        {
+            QString md5=file->md5;
+        QNetworkRequest request;
+        QString url=QString("http://%1:%2/dealfile?cmd=share").arg(ip,port);
+        request.setUrl(url);
+        request.setHeader(QNetworkRequest::ContentTypeHeader,QVariant("application/json"));
+        QJsonObject obj;
+        obj.insert("user",user);
+        obj.insert("token",tok);
+        obj.insert("md5",md5);
+        obj.insert("filename",file->fileName);
+        QJsonDocument doc;
+        doc.setObject(obj);
+        QByteArray data=doc.toJson();
+        QNetworkReply *reply=manager->post(request,data);
+        if (reply->error() == QNetworkReply::NoError) {
+            connect(reply,&QNetworkReply::readyRead,this,[=](){
+                QByteArray rdata=reply->readAll();
+                QString code=ServerDataUtil::getCode(rdata);
+                if(code=="010")
+                qDebug()<<"分享的服务器数据"<<rdata;
+                else if(code=="011")qDebug()<<"分享失败";
+                else if(code=="012")qDebug()<<"已经分享了";
+                else if(code=="013")
+                    {
+                    qDebug()<<"token过期了";
+                    QMessageBox::critical(this, "账号异常", "请重新登录");
+                    emit loginagain();
+                    return;
+                }
+                reply->deleteLater();
+            });
+        } else {
+            // 请求失败，输出错误信息
+            qDebug() << "Request failed: " << reply->errorString();
+        }
+        break;
+        }
+    }
+}

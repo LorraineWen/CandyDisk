@@ -10,7 +10,7 @@ public:
     ServerDataUtil();
     static QStringList getFileCount(QByteArray json);
     static QList<File*>getFileInfo(QByteArray json);
-
+    static QString getCode(QByteArray json);
 };
 
 #endif // SERVERDATAUTIL_H

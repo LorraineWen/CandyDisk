@@ -6,6 +6,7 @@
 #include "util.h"
 #include "logintoken.h"
 #include "file.h"
+#include <QPaintEvent>
 namespace Ui {
 class MyFilePage;
 }
@@ -42,6 +43,11 @@ private:
     void rightmenuconnect();
     void getUserFileCount(MyFileDisplay=Normal);
     void getUserFileList(MyFileDisplay=Normal);
+    void show_FileIcon();
+    void clearFile();
+    //void paintEvent(QPaintEvent *event);
+    void shareFile();
+
 private slots:
     void show_rightMenu(const QPoint &pos);
 };

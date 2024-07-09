@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QSignalMapper>
 #include <QToolButton>
+#include "logintoken.h"
 namespace Ui {
 class MainMenuUi;
 }
@@ -28,6 +29,7 @@ private:
    //void defaultPage();
     QPixmap bg;
     Ui::MainMenuUi *ui;
+    LoginToken *token;
     //QSignalMapper* smapper;
     //QMap<QString,QToolButton*>mapper;
     //QToolButton*currentButton;
