@@ -36,3 +36,7 @@ void MainUi::mainconnect()
         emit show_loginPage();
     });
 }
+ void MainUi::init()
+{
+     ui->myfilePage->getUserFileCount();
+ }

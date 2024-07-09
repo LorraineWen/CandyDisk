@@ -33,6 +33,8 @@ public:
     QNetworkAccessManager* getmanger();
     QString getFileType(QString filetypename);
     void getFileTypeList();
+   QString getBoundary();
+    QString getFileMd5(QString filePath);
 private:
     QStringList filetypelist;
 };

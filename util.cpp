@@ -8,6 +8,9 @@
 #include <QFile>
 #include<QJsonObject>
 #include<QDir>
+#include <QCoreApplication>
+#include <QTime>
+#include <QRandomGenerator>
 Util* Util::u_instance=new Util;
 Util::Util()
 {
@@ -204,4 +207,70 @@ void Util::getFileTypeList()
         QFileInfo fileinfo=fileinfolist.at(i);
         filetypelist.append(fileinfo.fileName());
     }
+}
+QString Util::getBoundary()
+{
+    // 随机生成16个字符
+    QString randoms = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    // 设置随机种子
+    QRandomGenerator randomGenerator(QTime::currentTime().msecsSinceStartOfDay());
+
+    QString temp;
+    int len = randoms.length();
+    for (int i = 0; i < 16; i++) {
+        int rand = randomGenerator.bounded(len);
+        temp.append(randoms.at(rand));
+    }
+    // 构建 boundary
+    QString boundary = "------WebKitFormBoundary" + temp;
+    return boundary;
+}
+QString Util::getFileMd5(QString filePath)
+{
+    QFile localFile(filePath);
+
+    if (!localFile.open(QFile::ReadOnly))
+    {
+        qDebug() << "file open error.";
+        return 0;
+    }
+
+    QCryptographicHash ch(QCryptographicHash::Md5);
+
+    quint64 totalBytes = 0;
+    quint64 bytesWritten = 0;
+    quint64 bytesToWrite = 0;
+    quint64 loadSize = 1024 * 4;
+    QByteArray buf;
+
+    totalBytes = localFile.size();
+    bytesToWrite = totalBytes;
+
+    while (1)
+    {
+        if(bytesToWrite > 0)
+        {
+            buf = localFile.read(qMin(bytesToWrite, loadSize));
+            ch.addData(buf);
+            bytesWritten += buf.length();
+            bytesToWrite -= buf.length();
+            buf.resize(0);
+        }
+        else
+        {
+            break;
+        }
+
+        if(bytesWritten == totalBytes)
+        {
+            break;
+        }
+    }
+
+    if (localFile.isOpen()) {
+        localFile.close();
+    }
+    QByteArray md5 = ch.result();
+    return md5.toHex();
 }

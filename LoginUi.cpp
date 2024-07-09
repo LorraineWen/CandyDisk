@@ -222,6 +222,7 @@ void LoginUi::on_logButton_clicked()
                         save_user_token(name,password,ip,port,to.toString());
                         this->hide();
                         mainui->show();
+                        mainui->init();
                     }
                     else if(status.toString()=="001")QMessageBox::critical(this,"错误","登录失败");
                 }

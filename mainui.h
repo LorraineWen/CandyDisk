@@ -12,6 +12,7 @@ class MainUi : public QWidget
 
 public:
     explicit MainUi(QWidget *parent = nullptr);
+    void init();
     ~MainUi();
 signals:void show_loginPage();
 

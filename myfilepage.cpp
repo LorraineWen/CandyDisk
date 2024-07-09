@@ -10,6 +10,7 @@
 #include<QJsonParseError>
 #include <serverdatautil.h>
 #include<QMessageBox>
+#include<QFileDialog>
 MyFilePage::MyFilePage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::MyFilePage)
@@ -106,7 +107,7 @@ void MyFilePage::rightmenuconnect()
             });
     connect(uploadAction,&QAction::triggered,this,[=]()
             {
-                qDebug()<<"上传文件";
+        uploadFile();
             });
 }
 void MyFilePage::getUserFileCount(MyFileDisplay cmd)
@@ -151,7 +152,7 @@ void MyFilePage::getUserFileCount(MyFileDisplay cmd)
             }
             else
                 {
-                qDebug()<<"文件数为0";
+                clearFile();
             }
             reply->deleteLater();
        });
@@ -160,6 +161,7 @@ void MyFilePage::getUserFileCount(MyFileDisplay cmd)
         qDebug() << "Request failed: " << reply->errorString();
     }
 }
+//获取用户的文件，放入filelist中
 void  MyFilePage::getUserFileList(MyFileDisplay cmd)
 {
     QString strcmd;
@@ -196,6 +198,7 @@ void  MyFilePage::getUserFileList(MyFileDisplay cmd)
         qDebug() << "Request failed: " << reply->errorString();
     }
 }
+//将获取到的用户文件(filelist)，放入QFileListWidget中，显示出来
  void MyFilePage::show_FileIcon()
 {
      for(int i=0;i<filelist.size();i++)
@@ -224,12 +227,6 @@ void MyFilePage::clearFile()
         if(file!=nullptr)delete file;
      }
 }
- /*
- void MyFilePage::paintEvent(QPaintEvent *event)
-{
-     getUserFileCount(Normal);
- }
-*/
 void MyFilePage::shareFile()
 {
     QListWidgetItem *item=ui->fileList->currentItem();
@@ -360,4 +357,62 @@ void MyFilePage::showFileFactor()
             break;
         }
      }
+}
+void MyFilePage::uploadFile()
+{
+    QString filepath=QFileDialog::getOpenFileName();
+    QFile myfile(filepath);
+    myfile.open(QIODevice::ReadOnly|QIODevice::Text);
+    int pos=filepath.lastIndexOf("/",-1)+1;//从文件路径的末尾开始获取要上传的文件的名称
+    //设置请求格式
+    QString filename=filepath.mid(pos);
+    QString boundary = util->getBoundary();
+    QByteArray data;
+    data.append(boundary.toStdString());
+    data.append("\r\n");
+    data.append("Content-Disposition: form-data; ");
+    data.append(QString("user=\"%1\" filename=\"%2\" md5=\"%3\" size=%4")
+                    .arg(token->getName())
+                    .arg(filename)
+                    .arg(util->getFileMd5(filepath))
+                    .arg(myfile.size()).toStdString());
+    data.append("\r\n");
+    data.append("Content-Type: application/octet-stream");
+    data.append("\r\n");
+    data.append("\r\n");
+    data.append(myfile.readAll());
+    data.append("\r\n");
+    data.append(boundary.toStdString());
+    //发送请求
+if (myfile.isOpen()) {
+        qDebug()<<"文件关闭了";
+        myfile.close();
+    }
+    QString url = QString("http://%1:%2/upload").arg(token->getIp()).arg(token->getPort());
+    QNetworkRequest request;
+    request.setUrl(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, QVariant("application/json"));
+    //发送http请求
+    QNetworkReply *reply = manager->post(request, data);
+    if (reply == NULL) {
+        qDebug() << "请求失败";
+        return;
+    }
+    connect(reply, &QNetworkReply::finished, this, [=](){
+        //文件上传完成后
+        if (reply->error() != QNetworkReply::NoError) {
+            qDebug() << reply->errorString();
+        } else {
+            QByteArray json = reply->readAll();
+            qDebug() << "array:" <<QString(json);
+            QString code = ServerDataUtil::getCode(json);
+            if (code == "008") {
+                qDebug() << "上传成功";
+                getUserFileCount();
+            } else if (code == "009") {
+                qDebug() << "上传失败";
+            }
+        }
+        reply->deleteLater();
+    });
 }

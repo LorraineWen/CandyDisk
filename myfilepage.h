@@ -20,6 +20,7 @@ public:
      enum MyFileDisplay { Normal, Asc, Desc};
     explicit MyFilePage(QWidget *parent = nullptr);
     ~MyFilePage();
+      void getUserFileCount(MyFileDisplay=Normal);
 signals:
         void loginagain();
 private:
@@ -43,7 +44,6 @@ private:
     void initFileList();
     void initRightMenu();
     void rightmenuconnect();
-    void getUserFileCount(MyFileDisplay=Normal);
     void getUserFileList(MyFileDisplay=Normal);
     void show_FileIcon();
     void clearFile();
@@ -51,7 +51,7 @@ private:
     void shareFile();
     void deleteFile();
     void showFileFactor();
-
+    void uploadFile();
 private slots:
     void show_rightMenu(const QPoint &pos);
 };
