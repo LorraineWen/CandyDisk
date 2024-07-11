@@ -8,6 +8,8 @@
 #include "file.h"
 #include <QPaintEvent>
 #include "filefactorui.h"
+#include "uploadtask.h"
+#include <QTimer>
 namespace Ui {
 class MyFilePage;
 }
@@ -29,6 +31,7 @@ private:
     FileFactorUi *filefactorui;
     Util *util;
     LoginToken *token;
+    UploadTask*uploadtask;
     int filecount;
     RightMenu *blankMenu;
     QAction*downloadAction;
@@ -41,6 +44,7 @@ private:
     QAction*uploadAction;
     QNetworkAccessManager *manager;
     QList<File*> filelist;
+    QTimer uploadfiletime;
     void initFileList();
     void initRightMenu();
     void rightmenuconnect();
@@ -51,7 +55,10 @@ private:
     void shareFile();
     void deleteFile();
     void showFileFactor();
-    void uploadFile();
+    void uploadFile(UploadFileInfo*fileinfo);
+    void checkTaskList();
+    void adduploadFile();
+    void uploadFilesAction();
 private slots:
     void show_rightMenu(const QPoint &pos);
 };

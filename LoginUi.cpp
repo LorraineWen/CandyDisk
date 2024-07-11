@@ -123,7 +123,7 @@ void LoginUi::on_registerbutton_2_clicked()
         QJsonDocument rdoc=QJsonDocument::fromJson(rdata,&err);
         if(err.error!=QJsonParseError::NoError)
             {
-            qDebug()<<"Json格式错误";
+            qDebug()<<"注册Json格式错误";
         }
       else
             {
@@ -206,7 +206,7 @@ void LoginUi::on_logButton_clicked()
              qDebug() << "服务器返回数据:" << QString(rdata);
             QJsonDocument rdoc=QJsonDocument::fromJson(rdata,&err);
             if(err.error!=QJsonParseError::NoError){
-                qDebug()<<"Json格式错误";
+                qDebug()<<"登录Json格式错误";
             }
             else
             {

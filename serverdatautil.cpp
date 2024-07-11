@@ -13,7 +13,7 @@ QStringList ServerDataUtil::getFileCount(QByteArray json)
     QJsonDocument doc=QJsonDocument::fromJson(json,&err);
     if(err.error!=QJsonParseError::NoError)
     {
-        qDebug()<<"Json格式错误";
+        qDebug()<<"getFileCount的Json格式错误";
     }
     else
     {
@@ -39,7 +39,7 @@ QList<File*>ServerDataUtil::getFileInfo(QByteArray json)
     QJsonDocument doc=QJsonDocument::fromJson(json,&err);
     if(err.error!=QJsonParseError::NoError)
     {
-        qDebug()<<"json格式错误";
+        qDebug()<<"getFileInfo的json格式错误";
     }
     else
     {
@@ -88,7 +88,7 @@ QString ServerDataUtil::getCode(QByteArray json)
     QJsonDocument doc=QJsonDocument::fromJson(json,&err);
     if(err.error!=QJsonParseError::NoError)
     {
-        qDebug()<<"Json格式错误";
+        qDebug()<<"getCode的Json格式错误";
     }else
     {
         QJsonObject obj=doc.object();

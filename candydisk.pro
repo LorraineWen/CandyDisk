@@ -20,6 +20,7 @@ SOURCES += \
     myfilepage.cpp \
     rightmenu.cpp \
     serverdatautil.cpp \
+    uploadtask.cpp \
     util.cpp \
     des.c
 
@@ -34,6 +35,7 @@ HEADERS += \
     myfilepage.h \
     rightmenu.h \
     serverdatautil.h \
+    uploadtask.h \
     util.h \
     des.h
 
